@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <section>
+        <h2>Edit Profile</h2>
+        <form action="{% url 'profile_editing' slug=request.user.profile.slug %}" method="post" enctype="multipart/form-data">
+            {{ form.as_p }}
+
+            <button class="edit-btn" type="submit">Edit</button>
+            or <a href="{% url 'profile_delete' slug=request.user.profile.slug %}">Delete Profile</a>
+{#            TODO: make delete profile red#}
+
+            {% csrf_token %}
+        </form>
+    </section>
+{% endblock %}

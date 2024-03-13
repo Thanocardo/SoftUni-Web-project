@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+}
+
+header {
+    background-color: #9400D3;
+    padding: 10px;
+}
+
+.navbar {
+    text-align: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 20px; /* Add some space between menu items */
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333333;
+    font-weight: bold;
+}

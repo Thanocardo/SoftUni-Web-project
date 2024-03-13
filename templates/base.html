@@ -1,0 +1,62 @@
+{% load static %}
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static '/style/style.css' %}"/>
+    <title>learn with ease</title>
+</head>
+<body>
+    <header>    
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <a href="#">Library</a>
+                </li>
+                <li>
+                    <a href="#">Archive</a>
+                </li>
+                <li>
+                    <a href="#">Help</a>
+                </li>
+                <li>
+                    <a href="{% url 'main_page' %}">About</a>
+                </li>
+                <li>
+                    <a href="#">Posts</a>
+                </li>
+            </ul>
+
+            {% if user.is_authenticated %}
+                <ul>
+                    <li>
+                        <a href="{% url 'profile' slug=request.user.profile.slug %}">Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sign_out_user' %}">Log out</a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li>
+                        <a href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li>
+                    <a href="{% url 'profile_creation' %}">Sign Up</a>
+                    </li>
+                </ul>
+            {% endif %}
+
+        </nav>
+    </header>
+    {% block main_content %}
+    {% endblock %}
+
+    <footer></footer>
+</body>
+</html>

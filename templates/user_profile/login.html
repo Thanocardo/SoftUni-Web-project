@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block main_content %}
+    <section>
+        <div>
+            <form action="{% url "login" %}?next={{ next }}" method="post">
+                <p>
+                    Email:
+                    {{ form.username|placeholder:"Email" }}
+                    {{ form.username.errors }}
+                </p>
+                <p>
+                    Password:
+                    {{ form.password|placeholder:"Password" }}
+                    {{ form.password.errors }}
+                </p>
+                {#                TODO: fix error message#}
+
+                <button type="submit">Login</button>
+                or <a href="{% url 'profile_creation' %}">Sign Up</a>
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+{#    TODO: make section for when the user is deleted#}
+    <section>
+        <div>
+            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.username }} picture" height="300" width="300"/>
+            <p>
+                {{ profile.username }}
+            </p>
+            <p>
+                {{ profile.age }}
+            </p>
+            <p>
+                {{ profile.gender }}
+            </p>
+            <p>
+                {{ profile.profile_description }}
+            </p>
+        </div>
+        {% if profile == request.user.profile %}
+            <a href="{% url 'profile_editing' slug=request.user.profile.slug %}">Edit Profile</a>
+        {% endif %}
+    </section>
+{% endblock %}

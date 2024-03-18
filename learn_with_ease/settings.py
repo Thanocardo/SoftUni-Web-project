@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
+
     'learn_with_ease.web',
     'learn_with_ease.flashcards',
     'learn_with_ease.user_profile',
@@ -110,9 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-if DEBUG:
-    AUTH_PASSWORD_VALIDATORS = ()
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -147,3 +148,18 @@ AUTH_USER_MODEL = "user_profile.UserAccount"
 LOGIN_REDIRECT_URL = reverse_lazy('main_page')
 LOGIN_URL = reverse_lazy('profile_creation')
 LOGOUT_REDIRECT_URL = reverse_lazy('main_page')
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Learn with easy',
+    'DESCRIPTION': 'Flashcards for easier study',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+}

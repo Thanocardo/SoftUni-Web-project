@@ -13,6 +13,7 @@ from learn_with_ease.user_profile.models import ProfileData
 # Create your views here.
 
 class OwnerRequiredMixin:
+
     user_field = "user"
 
     def get_object(self, queryset=None):
@@ -25,12 +26,14 @@ class OwnerRequiredMixin:
 
 
 class LoginUserView(auth_view.LoginView):
+
     template_name = 'user_profile/login.html'
     success_url = reverse_lazy('main_page')
     redirect_authenticated_user = True
 
 
 class SignUpUserView(views.CreateView):
+
     form_class = LearnWithEasyUserCreationCreationForm
     template_name = "user_profile/signup_user.html"
     success_url = reverse_lazy("main_page")
@@ -46,6 +49,7 @@ class SignUpUserView(views.CreateView):
 
 
 class ProfileView(views.DetailView):
+
     queryset = ProfileData.objects.prefetch_related('user').all()
     template_name = 'user_profile/profile.html'
     context_object_name = 'profile'
@@ -67,12 +71,8 @@ class ProfileUpdateView(OwnerRequiredMixin, views.UpdateView):
         return form
 
 
-def sign_out_user(request):
-    logout(request)
-    return redirect('main_page')
-
-
 class ProfileDeleteView(OwnerRequiredMixin, views.DeleteView):
+
     queryset = ProfileData.objects.all()
     template_name = "user_profile/profile_delete.html"
 
@@ -87,3 +87,7 @@ class ProfileDeleteView(OwnerRequiredMixin, views.DeleteView):
 
         return HttpResponseRedirect(reverse_lazy('main_page'))
 
+
+def sign_out_user(request):
+    logout(request)
+    return redirect('main_page')

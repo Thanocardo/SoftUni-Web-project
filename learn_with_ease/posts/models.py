@@ -24,12 +24,12 @@ class Posts(models.Model):
         default=timezone.now,
     )
 
-    cards_id = models.ManyToManyField(
+    cards = models.ManyToManyField(
         to=FlashCards,
         related_name="posts_data"
     )
 
-    folders_id = models.ManyToManyField(
+    folders = models.ManyToManyField(
         to=Folders,
         related_name="posts_data"
     )
@@ -41,7 +41,7 @@ class Posts(models.Model):
         validators=[image_size_validator]
     )
 
-    profile_id = models.ForeignKey(
+    profile = models.ForeignKey(
         to=ProfileData,
         related_name="posts",
         on_delete=models.DO_NOTHING,
@@ -59,13 +59,13 @@ class Comments(models.Model):
 
     likes = models.PositiveIntegerField()
 
-    post_id = models.ForeignKey(
+    post = models.ForeignKey(
         to=Posts,
         related_name="comments",
         on_delete=models.DO_NOTHING,
     )
 
-    profile_id = models.ForeignKey(
+    profile = models.ForeignKey(
         to=ProfileData,
         related_name="comments",
         on_delete=models.DO_NOTHING,

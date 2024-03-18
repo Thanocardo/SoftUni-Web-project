@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+        <ul>
+        {% for card in flashcards %}
+            {% if card.folder_id == folder_id %}
+                <li>
+                    {% if card.question %}
+                        <p>
+                            {{ card.question }}
+                        </p>
+                    {% endif %}
+                    {% if card.question_picture.url != null %}
+                        <p>
+                            <img src="{{ card.question_picture.url }}" alt="{{ card.question_picture.name }}" style="width:300px; height:300px; object-fit: contain">
+                        </p>
+                    {% endif %}
+    {#                TODO: make it have a pen icon #}
+                    <a href="{% url 'flashcard_edit' pk=card.id slug=card.slug  %}">edit card</a>
+    {#                TODO: make it have a bin icon #}
+                    <a href="{% url 'flashcard_delete' pk=card.id slug=card.slug %}">delete card</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

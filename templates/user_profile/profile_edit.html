@@ -6,9 +6,10 @@
         <form action="{% url 'profile_editing' slug=request.user.profile.slug %}" method="post" enctype="multipart/form-data">
             {{ form.as_p }}
 
-            <button class="edit-btn" type="submit">Edit</button>
-            or <a href="{% url 'profile_delete' slug=request.user.profile.slug %}">Delete Profile</a>
-{#            TODO: make delete profile red#}
+            <button type="submit">Edit</button>
+            <a href="{% url 'profile_delete' slug=request.user.profile.slug %}">Delete Profile</a>
+            or <a href="javascript:history.back()">Go Back</a>
+{#            TODO: make delete profile red #}
 
             {% csrf_token %}
         </form>

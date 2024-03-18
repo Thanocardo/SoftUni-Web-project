@@ -85,6 +85,7 @@ class ProfileData(models.Model):
     )
 
     slug = models.SlugField(
+        unique=True,
         max_length=70,
         blank=True,
         )

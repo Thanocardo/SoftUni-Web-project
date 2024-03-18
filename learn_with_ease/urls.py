@@ -18,11 +18,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('learn_with_ease.web.urls')),
-    path('profile/', include('learn_with_ease.user_profile.urls'))
+    path('profile/', include('learn_with_ease.user_profile.urls')),
+    path('library/', include('learn_with_ease.flashcards.urls')),
+
+    # TODO:implement REST
+    # path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
 
 if settings.DEBUG:

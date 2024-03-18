@@ -19,8 +19,8 @@ class LearnWithEasyUserCreationCreationForm(auth_forms.UserCreationForm):
 
         profile = ProfileData(
             username=self.cleaned_data["Username"],
+            profile_picture='profile_picture/default_prof_pic.png',
             user=self.user,
-
         )
 
         if commit:

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <section>
+        <h2>Flashcard Creation</h2>
+        <form action="{% url 'flashcard_creation' %}" method="post" enctype="multipart/form-data">
+            {{ form.as_p }}
+{#            TODO: make a dynamic form and make a field for selecting folder#}
+
+            <button type="submit">Create Flashcard</button>
+            or <a href="javascript:history.back()">Go Back</a>
+
+            {% csrf_token %}
+        </form>
+    </section>
+{% endblock %}

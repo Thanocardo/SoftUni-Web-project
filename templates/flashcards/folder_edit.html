@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <form action="{% url 'folder_edit' pk=folders.id slug=folders.slug %}" method="post" enctype="multipart/form-data">
+        <h2>Edit Folder</h2>
+        {{ form.as_p }}
+
+        <button type="submit">Edit</button>
+        or <a href="javascript:history.back()">Go Back</a>
+        {% csrf_token %}
+    </form>
+{% endblock %}

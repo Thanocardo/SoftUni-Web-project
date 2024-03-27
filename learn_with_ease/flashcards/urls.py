@@ -7,8 +7,8 @@ urlpatterns = (
     path('', LibraryView.as_view(), name='library'),
     path('archive', ArchiveView.as_view(), name='flashcards_archive'),
     path('creation/', include([
-        path('/flashcard/', FlashCardsCreationView.as_view(), name='flashcard_creation'),
-        path('/folder/', FolderCreationView.as_view(), name='folder_creation'),
+        path('flashcard/', FlashCardsCreationView.as_view(), name='flashcard_creation'),
+        path('folder/', FolderCreationView.as_view(), name='folder_creation'),
     ])),
     path('flashcards/<int:pk>/<slug:slug>/', include([
         path('edit/', FlashCardsUpdateView.as_view(), name='flashcard_edit'),

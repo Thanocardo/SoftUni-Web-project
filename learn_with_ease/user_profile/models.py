@@ -1,10 +1,11 @@
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxValueValidator, MinLengthValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from unidecode import unidecode
 
 from learn_with_ease.user_profile.managers import AccountUserManager
 from learn_with_ease.web.validators import image_size_validator, username_validator
@@ -56,7 +57,10 @@ class ProfileData(models.Model):
     username = models.CharField(
         max_length=60,
         unique=True,
-        validators=[username_validator, MinLengthValidator(3)]
+        validators=[username_validator],
+        error_messages={
+            'unique': _('This username already exists.')
+        }
     )
 
     profile_picture = models.ImageField(
@@ -67,7 +71,7 @@ class ProfileData(models.Model):
     )
 
     age = models.PositiveSmallIntegerField(
-        validators=[MaxValueValidator(120)],
+        validators=[MinValueValidator(8), MaxValueValidator(120)],
         null=True,
         blank=True,
     )
@@ -86,8 +90,8 @@ class ProfileData(models.Model):
 
     slug = models.SlugField(
         unique=True,
-        max_length=70,
         blank=True,
+        allow_unicode=True,
         )
 
     user = models.OneToOneField(
@@ -99,5 +103,7 @@ class ProfileData(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.username)
+            self.slug = slugify(unidecode(self.username))
+            if self.slug == '':
+                self.slug = str(self.user.id)
         super(ProfileData, self).save(*args, **kwargs)

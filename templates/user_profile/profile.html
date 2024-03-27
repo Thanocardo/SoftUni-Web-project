@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
-{#    TODO: make section for when the user is deleted #}
     <section>
         <div>
             {% if profile.profile_picture %}
             <img src="{{ profile.profile_picture.url }}" alt="{{ profile.username }} picture" style="width:300px; height:300px; object-fit: contain"/>
             {% else %}
-            <img src="{{ MEDIA_ROOT }}profile_picture/defalt_prof_pic.png" alt="{{ profile.username }} picture" height="300" width="300"/>
-{#                TODO: fix #}
+            <img src="/mediafiles/profile_picture/default_prof_pic.png" alt="{{ profile.username }} picture" height="300" width="300"/>
             {% endif %}
             <p>
                 {{ profile.username }}

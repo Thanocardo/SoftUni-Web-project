@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <section>
+        <a href="{% url 'post_creation' %}">Create Post</a>
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <a href="{% url 'post_details' pk=post.id slug=post.slug %}">
+                        {% if post.post_photo %}
+                            <img src="{{ post.post_photo.url }}" alt="{{ post.post_name }}" style="max-width:600px; max-height:600px; object-fit: contain">
+                        {% endif %}
+        {#                TODO: fix photo#}
+                        <p>{{ post.post_name }}</p>
+                        <p>{{ post.description }}</p>
+                        <p>{{ post.likes }}</p>
+                        <p>{{ post.created_at }}</p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

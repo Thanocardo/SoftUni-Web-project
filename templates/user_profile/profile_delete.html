@@ -3,17 +3,18 @@
 {% load static %}
 
 {% block main_content %}
+    <section>
+        <div>
+            <h1>
+                Are you sure you want to delete your profile?
+            </h1>
+            <form method="post" action="{% url 'profile_delete' slug=request.user.profile.slug %}">
+                {% csrf_token %}
+                <button type="submit">DELETE</button>
+                or <a href="javascript:history.back()">Go Back</a>
+            </form>
 
-    <div>
-        <h1>
-            Are you sure you want to delete your profile?
-        </h1>
-        <form method="post" action="{% url 'profile_delete' slug=request.user.profile.slug %}">
-            {% csrf_token %}
-            <button type="submit">DELETE</button>
-            or <a href="javascript:history.back()">Go Back</a>
-        </form>
-
-    </div>
+        </div>
+    </section>
 
 {% endblock %}

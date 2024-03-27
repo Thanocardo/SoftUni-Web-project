@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <section>
+    {% if cards or folders %}
+        <div>
+            <form action="{% url 'post_download' pk=pk slug=slug %}" method="post">
+
+                <button type="submit">Download Post Flashcards/Folders</button>
+                or <a href="javascript:history.back()">Go Back</a>
+                {% csrf_token %}
+            </form>
+        </div>
+        <div>
+            <h2>The following Flashcards/Folders will be downloaded:</h2>
+                        <ul>
+            {% if folders %}
+                {% for folder in folders %}
+                    <li>
+                        <a href="{% url 'flashcards_folder' pk=folder.id slug=folder.slug %}">
+                            {{ folder.folder_name }}
+                                {% if folder.folder_photo.url != null %}
+                                    <p>
+                                        <img src="{{ folder.folder_photo.url }}" alt="{{ folder.folder_name }}" style="width:300px; height:300px; object-fit: contain">
+                                    </p>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+            {% if cards %}
+                {% for card in cards %}
+                    <li>
+                        {% if not card.folder_id %}
+                            {% if card.question %}
+                                <p>
+                                    {{ card.question }}
+                                </p>
+                            {% endif %}
+                            {% if card.question_picture.url != null %}
+                                <p>
+                                    <img src="{{ card.question_picture.url }}" alt="{{ card.question_picture.name }}" style="width:300px; height:300px; object-fit: contain">
+                                </p>
+                            {% endif %}
+                            {% if card.answer %}
+                                <p>
+                                    {{ card.answer }}
+                                </p>
+                            {% endif %}
+                            {% if card.answer_picture.url != null %}
+                                <p>
+                                    <img src="{{ card.answer_picture.url }}" alt="{{ card.answer_picture.name }}" style="width:300px; height:300px; object-fit: contain">
+                                </p>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+        </div>
+    {% else %}
+        <p>
+            Looks like there aren't any flashcards/folder in the post
+        </p>
+    {% endif %}
+    </section>
+{% endblock %}

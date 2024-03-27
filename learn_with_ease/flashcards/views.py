@@ -1,10 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ValidationError
+from django.http import Http404
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic as views
 
 
 from learn_with_ease.flashcards.forms import LearnWithEasyFlashCardCreation, LearnWithEasyFolderCreation
 from learn_with_ease.flashcards.models import FlashCards, Folders
+from learn_with_ease.user_profile.views import OwnerRequiredMixin
 
 
 # Create your views here.
@@ -41,7 +45,6 @@ class FlashCardsCreationView(LoginRequiredMixin, views.CreateView):
     form_class = LearnWithEasyFlashCardCreation
     success_url = reverse_lazy("library")
     template_name = 'flashcards/flashcard_creation.html'
-    # TODO: fix no creating slug if language different from english
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -94,17 +97,23 @@ class FlashCardsDeleteView(LoginRequiredMixin, views.DeleteView):
         return FlashCards.objects.filter(profile_id=self.request.user.id)
 
 
-class FolderView(LoginRequiredMixin, views.TemplateView):
+class FolderView(LoginRequiredMixin, views.DetailView):
 
     login_url = reverse_lazy('login')
+    model = Folders
     template_name = 'flashcards/folder.html'
-    context_object_name = 'flashcards'
+    context_object_name = 'folder'
+
+    def dispatch(self, request, *args, **kwargs):
+        folder = self.get_object()
+        if folder.profile_id and folder.profile_id != request.user.id:
+            raise Http404()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile_id = self.request.user.id
-        context['flashcards'] = FlashCards.objects.filter(profile_id=profile_id)
-        context['folder_id'] = kwargs['pk']
+        folder = self.get_object()
+        context['flashcards'] = folder.flashcards.all()
         return context
 
 
@@ -114,7 +123,6 @@ class FolderCreationView(LoginRequiredMixin, views.CreateView):
     form_class = LearnWithEasyFolderCreation
     success_url = reverse_lazy("library")
     template_name = 'flashcards/folder_creation.html'
-    # TODO: fix no creating slug if language different from english
 
     def form_valid(self, form):
         form.instance.profile_id = self.request.user.id

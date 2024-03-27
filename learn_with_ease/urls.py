@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('learn_with_ease.web.urls')),
     path('profile/', include('learn_with_ease.user_profile.urls')),
     path('library/', include('learn_with_ease.flashcards.urls')),
+    path('posts/', include('learn_with_ease.posts.urls')),
 
     # TODO:implement REST
     # path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

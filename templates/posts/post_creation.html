@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <section>
+        <form action="{% url 'post_creation' %}" method="post" enctype="multipart/form-data">
+            <h2>Create Post</h2>
+
+            {{ form.as_p }}
+            <button type="submit">Create Post</button>
+            or <a href="javascript:history.back()">Go Back</a>
+            {% csrf_token %}
+        </form>
+    </section>
+{% endblock %}

@@ -56,7 +56,7 @@ class ProfileView(views.DetailView):
 
 
 class ProfileUpdateView(OwnerRequiredMixin, views.UpdateView):
-    # TODO: maybe make it profile/edit
+
     queryset = ProfileData.objects.all()
     template_name = "user_profile/profile_edit.html"
     fields = ("username", "profile_description", "age", "profile_picture", "gender")

@@ -2,42 +2,44 @@
 
 {% block main_content %}
     <section>
-    <ul>
-        {% for folder in folders %}
-            <li>
-                <a href="{% url 'flashcards_folder' pk=folder.id slug=folder.slug %}">{{ folder.folder_name }}</a>
-                {% if folder.folder_photo.url != null %}
-                    <p>
-                        <img src="{{ folder.folder_photo.url }}" alt="{{ folder.folder_name }}" style="width:300px; height:300px; object-fit: contain">
-                    </p>
-                {% endif %}
-                <a href="{% url 'folder_edit' pk=folder.id slug=folder.slug %}">Edit folder</a>
-                <a href="{% url 'folder_delete' pk=folder.id slug=folder.slug %}">Delete folder</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <ul>
-        {% for card in flashcards %}
-            {% if not card.folder %}
+        <ul>
+            {% for folder in folders %}
                 <li>
-                    {% if card.question %}
-                        <p>
-                            {{ card.question }}
-                        </p>
-                    {% endif %}
-
-                    {% if card.question_picture.url != null %}
-                        <p>
-                            <img src="{{ card.question_picture.url }}" alt="{{ card.question_picture.name }}" style="width:300px; height:300px; object-fit: contain">
-                        </p>
-                    {% endif %}
-    {#                TODO: make it have a pen icon #}
-                    <a href="{% url 'flashcard_edit' pk=card.id slug=card.slug  %}">Edit card</a>
-    {#                TODO: make it have a bin icon #}
-                    <a href="{% url 'flashcard_delete' pk=card.id slug=card.slug %}">Delete card</a>
+                    <a href="{% url 'flashcards_folder' pk=folder.id slug=folder.slug %}">
+                        {{ folder.folder_name }}
+                            {% if folder.folder_photo.url != null %}
+                                <p>
+                                    <img src="{{ folder.folder_photo.url }}" alt="{{ folder.folder_name }}" style="width:300px; height:300px; object-fit: contain">
+                                </p>
+                            {% endif %}
+                    </a>
+                    <a href="{% url 'folder_edit' pk=folder.id slug=folder.slug %}">Edit folder</a>
+                    <a href="{% url 'folder_delete' pk=folder.id slug=folder.slug %}">Delete folder</a>
                 </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+        <ul>
+            {% for card in flashcards %}
+                {% if not card.folder %}
+                    <li>
+                        {% if card.question %}
+                            <p>
+                                {{ card.question }}
+                            </p>
+                        {% endif %}
+
+                        {% if card.question_picture.url != null %}
+                            <p>
+                                <img src="{{ card.question_picture.url }}" alt="{{ card.question_picture.name }}" style="width:300px; height:300px; object-fit: contain">
+                            </p>
+                        {% endif %}
+        {#                TODO: make it have a pen icon #}
+                        <a href="{% url 'flashcard_edit' pk=card.id slug=card.slug  %}">Edit card</a>
+        {#                TODO: make it have a bin icon #}
+                        <a href="{% url 'flashcard_delete' pk=card.id slug=card.slug %}">Delete card</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </section>
 {% endblock %}

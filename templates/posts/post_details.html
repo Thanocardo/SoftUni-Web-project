@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <section>
+        <div>
+            <p>
+                <a href="{% url 'browse_posts' %}">Go Back</a>
+            </p>
+            {% if post_data.profile == request.user.profile %}
+                <p>
+                    <a href="{% url 'post_edit' pk=post_data.id slug=post_data.slug %}">Edit post</a>
+                </p>
+                <p>
+                    <a href="{% url 'post_delete' pk=post_data.id slug=post_data.slug %}">Delete post</a>
+                </p>
+            {% endif %}
+            {% if post_data.post_photo %}
+                <img src="{{ post_data.post_photo.url }}" alt="{{ post_data.post_name }}" style="max-width:800px; max-height:800px; object-fit: contain">
+            {% endif %}
+            <p>
+                {{ post_data.post_name }}
+            </p>
+            <p>
+                {{ post_data.description }}
+            </p>
+            <p>
+                {{ post_data.likes }}
+            </p>
+            <p>
+                {{ post_data.created_at }}
+            </p>
+
+        {% if not cards and not folders %}
+            <p>Looks like there aren't any flashcards/folder in the post</p>
+        {% else %}
+            <a href="{% url 'post_download' pk=post_data.id slug=post_data.slug %}">Download Flashcards/Folders</a>
+        {% endif %}
+            <ul>
+            {% if folders %}
+                {% for folder in folders %}
+                    <li>
+                        <a href="{% url 'flashcards_folder' pk=folder.id slug=folder.slug %}">
+                            {{ folder.folder_name }}
+                                {% if folder.folder_photo.url != null %}
+                                    <p>
+                                        <img src="{{ folder.folder_photo.url }}" alt="{{ folder.folder_name }}" style="width:300px; height:300px; object-fit: contain">
+                                    </p>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+            {% if cards %}
+                {% for card in cards %}
+                    <li>
+                        {% if not card.folder_id %}
+                            {% if card.question %}
+                                <p>
+                                    {{ card.question }}
+                                </p>
+                            {% endif %}
+                            {% if card.question_picture.url != null %}
+                                <p>
+                                    <img src="{{ card.question_picture.url }}" alt="{{ card.question_picture.name }}" style="width:300px; height:300px; object-fit: contain">
+                                </p>
+                            {% endif %}
+                            {% if card.answer %}
+                                <p>
+                                    {{ card.answer }}
+                                </p>
+                            {% endif %}
+                            {% if card.answer_picture.url != null %}
+                                <p>
+                                    <img src="{{ card.answer_picture.url }}" alt="{{ card.answer_picture.name }}" style="width:300px; height:300px; object-fit: contain">
+                                </p>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+        </div>
+        <div>
+            <form method="post">
+                <h2>Add a Comment</h2>
+                {{ form }}
+                <button type="submit">Submit</button>
+                {% csrf_token %}
+            </form>
+        </div>
+            <p>Comments:</p>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        {% if comment.profile == request.user.profile %}
+                            <a href="{% url 'comment_edit' pk=post_data.id slug=post_data.slug com_pk=comment.id %}">Edit comment</a>
+                            <a href="{% url 'comment_delete' pk=post_data.id slug=post_data.slug com_pk=comment.id %}">Delete comment</a>
+                        {% endif %}
+                        <p>
+                            {{ comment.profile.username }}
+                        </p>
+                        <p>
+                            {{ comment.comment }}
+                        </p>
+                        <p>
+                            {{ comment.likes }}
+                        </p>
+                        <p>
+                            {{ comment.created_at }}
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+    </section>
+{% endblock %}

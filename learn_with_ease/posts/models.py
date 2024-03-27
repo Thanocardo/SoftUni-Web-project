@@ -1,7 +1,10 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
+from django.template.defaultfilters import slugify
+from unidecode import unidecode
 
-from learn_with_ease.flashcards.models import FlashCards, Folders
 from learn_with_ease.user_profile.models import ProfileData
 from learn_with_ease.web.validators import image_size_validator
 
@@ -11,6 +14,7 @@ from learn_with_ease.web.validators import image_size_validator
 class Posts(models.Model):
     post_name = models.CharField(
         max_length=100,
+        validators=[MinLengthValidator(3)]
     )
 
     description = models.TextField(
@@ -18,20 +22,12 @@ class Posts(models.Model):
         blank=True,
     )
 
-    like = models.PositiveIntegerField()
+    likes = models.PositiveIntegerField(
+        default=0,
+    )
 
     created_at = models.DateTimeField(
         default=timezone.now,
-    )
-
-    cards = models.ManyToManyField(
-        to=FlashCards,
-        related_name="posts_data"
-    )
-
-    folders = models.ManyToManyField(
-        to=Folders,
-        related_name="posts_data"
     )
 
     post_photo = models.ImageField(
@@ -49,15 +45,31 @@ class Posts(models.Model):
         blank=True,
     )
 
+    slug = models.SlugField(
+        blank=True,
+        allow_unicode=True,
+        default='none'
+    )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            if self.post_name:
+                self.slug = slugify(unidecode(self.post_name))
+        super(Posts, self).save(*args, **kwargs)
+
 
 class Comments(models.Model):
-    comment = models.TextField()
+    comment = models.TextField(
+        validators=[MinLengthValidator(1)],
+    )
 
     created_at = models.DateTimeField(
         default=timezone.now,
     )
 
-    likes = models.PositiveIntegerField()
+    likes = models.PositiveIntegerField(
+        default=0,
+    )
 
     post = models.ForeignKey(
         to=Posts,

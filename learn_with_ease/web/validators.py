@@ -1,7 +1,9 @@
 from django.core.exceptions import ValidationError
 import re
 
+
 def image_size_validator(image):
+
     SIZE_10_MB = 10 * 1024 * 1024
 
     if image.size >SIZE_10_MB:
@@ -10,6 +12,9 @@ def image_size_validator(image):
 
 def username_validator(username):
     regex = r"\W"
+
+    if len(username) < 3:
+        raise ValidationError("Username must be at least 3 characters.")
 
     if re.search(regex, username):
         return ValidationError("Username must contain only letters, numbers and underscores.")

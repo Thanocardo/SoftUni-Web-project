@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
+    <section>
         <form action="{% url 'folder_creation' %}" method="post" enctype="multipart/form-data">
-        <h2>Create Folder</h2>
-        {{ form.as_p }}
+            <h2>Create Folder</h2>
+            {{ form.as_p }}
 
-        <button type="submit">Edit</button>
-        or <a href="javascript:history.back()">Go Back</a>
-        {% csrf_token %}
-    </form>
+            <button type="submit">Create Folder</button>
+            or <a href="javascript:history.back()">Go Back</a>
+            {% csrf_token %}
+        </form>
+    </section>
 {% endblock %}

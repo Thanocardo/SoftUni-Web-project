@@ -9,24 +9,32 @@
                 <p>
                     Username:
                     {{ form.Username|placeholder:"Username" }}
-                    {{ form.Username.errors }}
                 </p>
                 <p>
                     Email:
                     {{ form.email|placeholder:"Email" }}
-                    {{ form.email.errors }}
                 </p>
                 <p>
                     Password:
                     {{ form.password1|placeholder:"Password" }}
-                    {{ form.password1.errors }}
                 </p>
                 <p>
                     Confirm password:
                     {{ form.password2|placeholder:"Confirm Password" }}
-                    {{ form.password2.errors }}
                 </p>
 {#                TODO: fix error message#}
+
+                {% if form.is_bound %}
+                    {% if form.errors %}
+                        <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
 
                 <button type="submit">Sign Up</button>
                 or <a href="{% url 'login' %}">Already have account?</a>

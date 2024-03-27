@@ -4,9 +4,9 @@
     <section>
         <div>
             <h1>
-                Are you sure you want to delete this card?
+                Are you sure you want to delete this post?
             </h1>
-            <form method="post" action="{% url 'flashcard_delete' pk=flashcards.id slug=flashcards.slug %}">
+            <form action="{% url 'post_delete' pk=posts.id slug=posts.slug %}" method="post" enctype="multipart/form-data">
 
                 <button type="submit">DELETE</button>
                 or <a href="javascript:history.back()">Go Back</a>
@@ -15,5 +15,4 @@
 
         </div>
     </section>
-
 {% endblock %}
